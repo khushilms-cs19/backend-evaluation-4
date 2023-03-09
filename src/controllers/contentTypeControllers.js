@@ -13,7 +13,7 @@ const editContentType = async (req, res) => {
 };
 
 const createContentType = async (req, res) => {
-  const { userId } = req.user;
+  const { userId } = req.body;
   const { contentTypeName } = req.body;
   const contentType = await contentTypeServices.createContentType(userId, contentTypeName);
   res.status(200).json(contentType);

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 // Routers
 const contentTypeRouter = require('./routes/contentTypeRoutes');
+const columnRouter = require('./routes/columnRoutes');
 
 // Constants
 const PORT = process.env.PORT || 4000;
@@ -15,7 +16,7 @@ app.use(cors());
 // app.use('/api');
 // Server routes
 app.use('/contentTypes', contentTypeRouter);
-
+app.use('/column', columnRouter);
 
 //ping 
 app.get('/ping', (req, res) => {

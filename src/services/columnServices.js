@@ -1,7 +1,7 @@
 const db = require('../../database/models');
 
-const getAllColumns = async (collectionId) => {
-  const columns = await db.column.findAll({ where: { collectionId } });
+const getAllColumns = async (contentTypeId) => {
+  const columns = await db.column.findAll({ where: { contentTypeId } });
   return columns;
 };
 
@@ -15,8 +15,8 @@ const editColumn = async (columnId, name) => {
   return column;
 };
 
-const createColumn = async (collectionId, name) => {
-  const column = await db.column.create({ collectionId, name });
+const createColumn = async (contentTypeId, name) => {
+  const column = await db.column.create({ contentTypeId, name });
   return column;
 };
 

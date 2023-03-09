@@ -22,3 +22,18 @@ const getAllCollections = async (req, res) => {
   res.status(200).json(resultData);
 };
 
+
+
+// const createCollection = async (req, res) => {
+//   const { contentTypeId } = req.params;
+//   const { data } = req.body;
+//   const formattedData = data.map((item) => {
+//     const { name, value } = item;
+
+//     const collection = await collectionServices.createCollection(contentTypeId, data);
+//     res.status(200).json(collection);
+//   };
+
+module.exports = {
+  getAllCollections,
+};
