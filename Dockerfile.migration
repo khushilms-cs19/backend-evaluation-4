@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+RUN apk add --update nodejs npm
+
+COPY ./config src/config
+COPY ./migrations src/migrations
+COPY ./models src/models
+COPY ./seeders src/seeders
+COPY ./.env src/.env
+COPY package.json src/package.json
+COPY package-lock.json src/package-lock.json
+
+WORKDIR /src
+
+
+RUN npm install sequelize dotenv
+
+ENTRYPOINT [ "npm", "run", "db:seedup" ] 
