@@ -10,8 +10,8 @@ const editCollection = async (collectionId, data, columns) => {
   return collection;
 };
 
-const createCollection = async (contentTypeId, data, columns) => {
-  const collection = await db.collection.create({ contentTypeId, data, columns });
+const createCollection = async (contentTypeId, data) => {
+  const collection = await db.collection.create({ contentTypeId, data });
   return collection;
 };
 

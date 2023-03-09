@@ -3,6 +3,7 @@ const cors = require('cors');
 // Routers
 const contentTypeRouter = require('./routes/contentTypeRoutes');
 const columnRouter = require('./routes/columnRoutes');
+const collectionRouter = require('./routes/collectionRoutes');
 
 // Constants
 const PORT = process.env.PORT || 4000;
