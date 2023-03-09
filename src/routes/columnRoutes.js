@@ -1,13 +1,14 @@
 const router = require('express').Router();
 
 const columnControllers = require('../controllers/columnControllers');
+const { validateParams, schemas, validateBody } = require('../middlewares/validator');
 
-router.get('/:contentTypeId', columnControllers.getAllColumns);
+router.get('/:contentTypeId', validateParams(schemas.contentTypeParam), columnControllers.getAllColumns);
 
-router.post('/', columnControllers.addColumn);
+router.post('/', validateBody(schemas.createColumn), columnControllers.addColumn);
 
-router.put('/:columnId', columnControllers.editColumn);
+router.put('/:columnId', validateParams(schemas.columnParam), validateBody(schemas.editColumn), columnControllers.editColumn);
 
-router.delete('/:columnId', columnControllers.deleteColumn);
+router.delete('/:columnId', validateParams(schemas.columnParam), columnControllers.deleteColumn);
 
 module.exports = router;

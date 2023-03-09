@@ -67,11 +67,15 @@ const editCollection = async (req, res) => {
     const allColumns = await columnServices.getAllColumns(contentTypeId);
     //check column exists
     columnUtils.checkColumnExists(allColumns, data);
-
+    //
     const collection = await collectionServices.editCollection(collectionId, data);
     res.status(200).json(collection);
   } catch (err) {
-    handleError(err, res);
+    if (err.message === 'Column does not exist') {
+      res.status(400).json({ message: err.message });
+    } else {
+      handleError(err, res);
+    }
   }
 };
 

@@ -29,13 +29,17 @@ const addColumn = async (req, res) => {
 };
 
 const editColumn = async (req, res) => {
-  const { columnId } = req.params;
-  const { name } = req.body;
-  const column = await columnServices.editColumn(columnId, name);
-  res.status(200).json({
-    message: 'Column edited',
-    column
-  });
+  try {
+    const { columnId } = req.params;
+    const { name } = req.body;
+    const column = await columnServices.editColumn(columnId, name);
+    res.status(200).json({
+      message: 'Column edited',
+      column
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
 };
 
 const deleteColumn = async (req, res) => {
