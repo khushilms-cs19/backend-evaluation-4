@@ -9,6 +9,9 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "ignorePatterns": [
+    "**/*.test.js"
+  ],
   "rules": {
     "indent": [
       "error",
