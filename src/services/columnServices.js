@@ -1,6 +1,7 @@
 const db = require('../../database/models');
 
 const getAllColumns = async (contentTypeId) => {
+  console.log(contentTypeId);
   const columns = await db.column.findAll({ where: { contentTypeId } });
   return columns;
 };

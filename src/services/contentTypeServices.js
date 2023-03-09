@@ -4,8 +4,13 @@ const getAllContentTypes = async () => {
   return contentTypes;
 };
 
-const editContentType = async (contentTypeId, contentTypeName) => {
-  const contentType = await db.contentType.update({ contentTypeName }, { where: { contentTypeId } });
+const getContentType = async (contentTypeId) => {
+  const contentType = await db.contentType.findOne({ where: { contentTypeId } });
+  return contentType;
+};
+
+const editContentType = async (contentTypeId, attribute, data) => {
+  const contentType = await db.contentType.update({ [attribute]: data }, { where: { contentTypeId } });
   return contentType;
 };
 
@@ -24,4 +29,5 @@ module.exports = {
   editContentType,
   createContentType,
   deleteContentType,
+  getContentType,
 };

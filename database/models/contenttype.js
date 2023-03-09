@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     contentTypeName: {
       type: DataTypes.STRING,
       unique: true,
+    },
+    usedColumns: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     }
   }, {
     sequelize,

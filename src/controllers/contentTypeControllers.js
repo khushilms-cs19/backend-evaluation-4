@@ -1,15 +1,27 @@
 const contentTypeServices = require('../services/contentTypeServices');
 
 const getAllContentTypes = async (req, res) => {
-  const contentTypes = await contentTypeServices.getAllContentTypes();
-  res.status(200).json(contentTypes);
+  try {
+    const contentTypes = await contentTypeServices.getAllContentTypes();
+    res.status(200).json(contentTypes);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
 };
 
 const editContentType = async (req, res) => {
-  const { contentTypeId } = req.params;
-  const { contentTypeName } = req.body;
-  const contentType = await contentTypeServices.editContentType(contentTypeId, contentTypeName);
-  res.status(200).json(contentType);
+  try {
+    const { contentTypeId } = req.params;
+    const { contentTypeName } = req.body;
+    const contentType = await contentTypeServices.editContentType(contentTypeId, 'contentTypeName', contentTypeName);
+    res.status(200).json(contentType);
+  } catch (err) {
+    res.status(400).json({
+      message: err.message,
+    });
+  }
 };
 
 const createContentType = async (req, res) => {
