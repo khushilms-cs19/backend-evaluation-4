@@ -1,4 +1,5 @@
 const db = require('../../database/models');
+const HttpError = require('../util/errors/httpError');
 const getAllContentTypes = async () => {
   const contentTypes = await db.contentType.findAll();
   return contentTypes;
@@ -6,6 +7,7 @@ const getAllContentTypes = async () => {
 
 const getContentType = async (contentTypeId) => {
   const contentType = await db.contentType.findOne({ where: { contentTypeId } });
+  if (!contentType) throw new HttpError('Content Type not found', 404);
   return contentType;
 };
 

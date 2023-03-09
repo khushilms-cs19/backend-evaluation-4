@@ -1,13 +1,12 @@
 const contentTypeServices = require('../services/contentTypeServices');
+const { handleError } = require('../util/errors/errorHandler');
 
 const getAllContentTypes = async (req, res) => {
   try {
     const contentTypes = await contentTypeServices.getAllContentTypes();
     res.status(200).json(contentTypes);
   } catch (err) {
-    res.status(500).json({
-      message: 'Internal Server Error',
-    });
+    handleError(err, res);
   }
 };
 
@@ -16,25 +15,37 @@ const editContentType = async (req, res) => {
     const { contentTypeId } = req.params;
     const { contentTypeName } = req.body;
     const contentType = await contentTypeServices.editContentType(contentTypeId, 'contentTypeName', contentTypeName);
-    res.status(200).json(contentType);
-  } catch (err) {
-    res.status(400).json({
-      message: err.message,
+    res.status(200).json({
+      message: 'Content Type updated',
+      contentType,
     });
+  } catch (err) {
+    handleError(err, res);
   }
 };
 
 const createContentType = async (req, res) => {
-  const { userId } = req.body;
-  const { contentTypeName } = req.body;
-  const contentType = await contentTypeServices.createContentType(userId, contentTypeName);
-  res.status(200).json(contentType);
+  try {
+    const { userId } = req.body;
+    const { contentTypeName } = req.body;
+    const contentType = await contentTypeServices.createContentType(userId, contentTypeName);
+    res.status(200).json(contentType);
+  } catch (err) {
+    handleError(err, res);
+  }
 };
 
 const deleteContentType = async (req, res) => {
-  const { contentTypeId } = req.params;
-  const contentType = await contentTypeServices.deleteContentType(contentTypeId);
-  res.status(200).json(contentType);
+  try {
+    const { contentTypeId } = req.params;
+    const contentType = await contentTypeServices.deleteContentType(contentTypeId);
+    res.status(200).json({
+      message: 'Content Type deleted',
+      contentType
+    });
+  } catch (err) {
+    handleError(err, res);
+  }
 };
 
 module.exports = {
