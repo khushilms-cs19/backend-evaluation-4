@@ -43,15 +43,15 @@ const createCollection = async (req, res) => {
     //check column exists
     columnUtils.checkColumnExists(allColumns, data);
     //
-    const usedColumns = allColumns.filter((column) => {
-      const columnId = column.columnId;
-      const columnExists = data.find((item) => item.columnId === columnId);
-      if (columnExists) return true;
-      return false;
-    });
+    // const usedColumns = allColumns.filter((column) => {
+    //   const columnId = column.columnId;
+    //   const columnExists = data.find((item) => item.columnId === columnId);
+    //   if (columnExists) return true;
+    //   return false;
+    // });
 
-    const usedColumnIds = usedColumns.map((column) => column.columnId);
-    await contentTypeServices.editContentType(contentTypeId, 'usedColumns', usedColumnIds);
+    // const usedColumnIds = usedColumns.map((column) => column.columnId);
+    // await contentTypeServices.editContentType(contentTypeId, 'usedColumns', usedColumnIds);
     const collection = await collectionServices.createCollection(contentTypeId, data);
     res.status(201).json(collection);
   } catch (err) {

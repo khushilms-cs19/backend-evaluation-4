@@ -2,7 +2,6 @@ const Joi = require('joi');
 
 const schemas = {
   contentType: Joi.object({
-    userId: Joi.string().guid().required(),
     contentTypeName: Joi.string().min(3).max(255).required(),
   }),
   contentTypeParam: Joi.object({
@@ -22,9 +21,9 @@ const schemas = {
     name: Joi.string().min(3).max(255).required(),
   }),
   createCollection: Joi.object({
-    data: Joi.array().items(Joi.object({
+    data: Joi.array().min(1).items(Joi.object({
       columnId: Joi.string().guid().required(),
-      value: Joi.string().min(0).max(255),
+      value: Joi.string().min(3).max(255),
     })).required(),
   }),
   editCollection: Joi.object({

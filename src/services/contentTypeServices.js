@@ -12,7 +12,8 @@ const getContentType = async (contentTypeId) => {
 };
 
 const editContentType = async (contentTypeId, attribute, data) => {
-  const contentType = await db.contentType.update({ [attribute]: data }, { where: { contentTypeId } });
+  await db.contentType.update({ [attribute]: data }, { where: { contentTypeId } });
+  const contentType = await getContentType(contentTypeId);
   return contentType;
 };
 

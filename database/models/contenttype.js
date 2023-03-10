@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
     },
-    usedColumns: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      defaultValue: [],
-    }
   }, {
     sequelize,
     modelName: 'contentType',

@@ -1,3 +1,4 @@
+const { UniqueConstraintError } = require('sequelize');
 const contentTypeServices = require('../services/contentTypeServices');
 const { handleError } = require('../util/errors/errorHandler');
 
@@ -26,11 +27,16 @@ const editContentType = async (req, res) => {
 
 const createContentType = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.user;
     const { contentTypeName } = req.body;
     const contentType = await contentTypeServices.createContentType(userId, contentTypeName);
     res.status(200).json(contentType);
   } catch (err) {
+    if (err instanceof UniqueConstraintError) {
+      return res.status(409).json({
+        message: 'Content Type already exists',
+      });
+    }
     handleError(err, res);
   }
 };

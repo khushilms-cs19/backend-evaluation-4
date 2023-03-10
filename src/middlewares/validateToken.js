@@ -5,15 +5,20 @@ const validateToken = async (req, res, next) => {
   if (!token) {
     res.status(401).json({ message: 'Token not found' });
   } else {
-    const decoded = await axios({
-      method: 'post',
-      url: 'http://localhost:5000/auth/validate',
-      data: {
-        token,
-      },
-    });
-    req.user = decoded;
-    next();
+    try {
+
+      const decoded = await axios({
+        method: 'post',
+        url: 'http://localhost:5000/auth/validate',
+        data: {
+          token,
+        },
+      });
+      req.user = decoded;
+      next();
+    } catch (err) {
+      res.status(401).json({ message: 'Token is invalid' });
+    }
   }
 };
 
