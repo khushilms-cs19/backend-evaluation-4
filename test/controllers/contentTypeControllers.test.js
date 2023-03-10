@@ -1,3 +1,4 @@
+const { UniqueConstraintError } = require('sequelize');
 const contentTypeControllers = require('../../src/controllers/contentTypeControllers');
 const contentTypeServices = require('../../src/services/contentTypeServices');
 const HttpError = require('../../src/util/errors/httpError');
@@ -79,6 +80,12 @@ describe('Content-Type Controllers', () => {
       await contentTypeControllers.createContentType(mockReq, mockRes);
       expect(mockRes.status).toBeCalledWith(200);
       expect(mockRes.json).toBeCalledWith(mockContentType);
+    });
+    it('should return 409 error', async () => {
+      jest.spyOn(contentTypeServices, 'createContentType').mockRejectedValue(new UniqueConstraintError());
+      await contentTypeControllers.createContentType(mockReq, mockRes);
+      expect(mockRes.status).toBeCalledWith(409);
+      expect(mockRes.json).toBeCalledWith({ message: 'Content Type already exists' });
     });
     it('should return error', async () => {
       jest.spyOn(contentTypeServices, 'createContentType').mockRejectedValue(new Error('Internal Server Error'));

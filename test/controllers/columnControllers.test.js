@@ -7,7 +7,7 @@ const HttpError = require('../../src/util/errors/httpError');
 const mockReq = {
   params: {
     contentTypeId: 'contentTypeId',
-    columnId: 'columnId',
+    columnId: '1',
   },
   body: {
     name: 'name',
@@ -18,28 +18,31 @@ const mockRes = {
   json: jest.fn(),
 };
 const mockColumn = {
-  "columnId": "c894c0af-6122-4e77-98c4-d1b090996018",
-  "contentTypeId": "f20fcc64-6300-4930-9f48-2ecfe87e1664",
-  "name": "sham bhi koi 1",
-  "createdAt": "2023-03-09T13:02:23.438Z",
-  "updatedAt": "2023-03-09T13:02:23.438Z"
+  "columnId": "1",
+  "contentTypeId": "10",
+  "name": "name 1",
 };
 
 const mockContentType = {
-  "contentTypeId": "ac60365d-f956-466f-be4f-30a2c6e69865",
+  "contentTypeId": "10",
   "userId": "1",
   "contentTypeName": "random 2",
-  "createdAt": "2023-03-09T12:53:39.176Z",
-  "updatedAt": "2023-03-09T12:57:33.843Z"
 }
 
 const mockCollection =
 {
-  "collectionId": "c894c0af-6122-4e77-98c4-d1b090996018",
-  "contentTypeId": "f20fcc64-6300-4930-9f48-2ecfe87e1664",
-  "name": "sham bhi koi 1",
-  "createdAt": "2023-03-09T13:02:23.438Z",
-  "updatedAt": "2023-03-09T13:02:23.438Z"
+  "collectionId": "100",
+  "contentTypeId": "10",
+  "data": [
+    {
+      "columnId": "1",
+      "value": "name 1"
+    },
+    {
+      "columnId": "2",
+      "value": "name 2"
+    },
+  ]
 }
 
 describe('columnControllers', () => {
@@ -113,7 +116,7 @@ describe('columnControllers', () => {
   });
   describe('editColumn', () => {
     it('should edit column', async () => {
-      jest.spyOn(columnServices, 'editColumn').mockResolvedValue(1);
+      jest.spyOn(columnServices, 'editColumn').mockResolvedValue(mockColumn);
       await columnControllers.editColumn(mockReq, mockRes);
       expect(mockRes.status).toBeCalledWith(200);
       expect(mockRes.json).toBeCalledWith({ message: 'Column edited', column: mockColumn });
@@ -132,17 +135,31 @@ describe('columnControllers', () => {
     });
   });
   describe('deleteColumn', () => {
-    // it('should delete column', async () => {
-    //   jest.spyOn(columnServices, 'getColumn').mockResolvedValue(mockColumn);
-    //   jest.spyOn(contentTypeServices, 'getContentType').mockResolvedValue(mockContentType);
-    //   jest.spyOn(collectionServices, 'getAllCollections').mockResolvedValue([mockCollection]);
-    //   jest.spyOn(collectionServices, 'deleteCollection').mockResolvedValue(1);
-    //   jest.spyOn(collectionServices, 'editCollection').mockResolvedValue(1);
-    //   jest.spyOn(columnServices, 'deleteColumn').mockResolvedValue(1);
-    //   await columnControllers.deleteColumn(mockReq, mockRes);
-    //   expect(mockRes.status).toBeCalledWith(200);
-    //   expect(mockRes.json).toBeCalledWith({ message: 'Column deleted', column: mockColumn });
-    // });
+    it('should delete column', async () => {
+      jest.spyOn(columnServices, 'getColumn').mockResolvedValue(mockColumn);
+      jest.spyOn(contentTypeServices, 'getContentType').mockResolvedValue(mockContentType);
+      jest.spyOn(collectionServices, 'getAllCollections').mockResolvedValue([mockCollection]);
+      jest.spyOn(collectionServices, 'deleteCollection').mockResolvedValue(1);
+      jest.spyOn(collectionServices, 'editCollection').mockResolvedValue(1);
+      jest.spyOn(columnServices, 'deleteColumn').mockResolvedValue(1);
+      await columnControllers.deleteColumn(mockReq, mockRes);
+      expect(mockRes.status).toBeCalledWith(200);
+      expect(mockRes.json).toBeCalledWith({ message: 'Column deleted', column: mockColumn });
+    });
+    it('should delete column and collection', async () => {
+      jest.spyOn(columnServices, 'getColumn').mockResolvedValue(mockColumn);
+      jest.spyOn(contentTypeServices, 'getContentType').mockResolvedValue(mockContentType);
+      jest.spyOn(collectionServices, 'getAllCollections').mockResolvedValue([{
+        ...mockCollection,
+        data: [mockCollection.data[0]]
+      }]);
+      jest.spyOn(collectionServices, 'deleteCollection').mockResolvedValue(1);
+      jest.spyOn(collectionServices, 'editCollection').mockResolvedValue(1);
+      jest.spyOn(columnServices, 'deleteColumn').mockResolvedValue(1);
+      await columnControllers.deleteColumn(mockReq, mockRes);
+      expect(mockRes.status).toBeCalledWith(200);
+      expect(mockRes.json).toBeCalledWith({ message: 'Column deleted', column: mockColumn });
+    });
     it('should return error', async () => {
       jest.spyOn(columnServices, 'deleteColumn').mockRejectedValue(new Error('Internal Server Error'));
       jest.spyOn(columnServices, 'getColumn').mockResolvedValue(mockColumn);
@@ -172,7 +189,13 @@ describe('columnControllers', () => {
     it('should return 404 error', async () => {
       jest.spyOn(columnServices, 'deleteColumn').mockResolvedValue(1);
       jest.spyOn(contentTypeServices, 'getContentType').mockResolvedValue(mockContentType);
-      jest.spyOn(collectionServices, 'getAllCollections').mockResolvedValue([mockCollection]);
+      jest.spyOn(collectionServices, 'getAllCollections').mockResolvedValue([{
+        ...mockCollection, data: [
+          {
+            ...mockCollection.data[0],
+          }
+        ]
+      }]);
       jest.spyOn(collectionServices, 'deleteCollection').mockResolvedValue(1);
       jest.spyOn(collectionServices, 'editCollection').mockResolvedValue(1);
       jest.spyOn(columnServices, 'deleteColumn').mockResolvedValue(1);

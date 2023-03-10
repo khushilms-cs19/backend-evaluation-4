@@ -57,6 +57,7 @@ const deleteColumn = async (req, res) => {
     await Promise.all(allCollections.map(async (collection) => {
       const { data } = collection;
       const newData = data.filter((item) => item.columnId !== columnId);
+      console.log(newData);
       if (newData.length === 0) {
         return collectionServices.deleteCollection(collection.collectionId);
       } else {
@@ -69,11 +70,7 @@ const deleteColumn = async (req, res) => {
       column
     });
   } catch (err) {
-    if (err.message === 'Column is in use') {
-      res.status(400).json({ message: 'Column is in use' });
-    } else {
-      handleError(err, res);
-    }
+    handleError(err, res);
   }
 };
 
