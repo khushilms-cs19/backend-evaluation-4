@@ -23,12 +23,14 @@ const getAllCollections = async (req, res) => {
         data: result,
       };
     }));
+
     res.status(200).json({
       contentType,
       allColumns,
       data: resultData,
     });
   } catch (err) {
+    console.log(err);
     handleError(err, res);
   }
 };

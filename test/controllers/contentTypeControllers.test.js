@@ -12,6 +12,9 @@ const mockReq = {
     userId: 'userId',
     contentTypeName: 'contentTypeName',
   },
+  user: {
+    userId: 'userId',
+  }
 }
 
 const mockRes = {

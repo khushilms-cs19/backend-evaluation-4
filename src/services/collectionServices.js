@@ -4,6 +4,7 @@ const HttpError = require('../util/errors/httpError');
 const getAllCollections = async (contentTypeId) => {
   const collections = await db.collection.findAll({ where: { contentTypeId } });
   if (!collections) throw new HttpError('Collections not found', 404);
+  console.log('here');
   return collections;
 };
 
