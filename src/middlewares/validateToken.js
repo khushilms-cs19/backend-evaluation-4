@@ -6,10 +6,9 @@ const validateToken = async (req, res, next) => {
     res.status(401).json({ message: 'Token not found' });
   } else {
     try {
-
       const decoded = await axios({
         method: 'post',
-        url: 'http://localhost:5000/auth/validate',
+        url: `http://${process.env.AUTH_URL}:${process.env.AUTH_PORT}/auth/validate`,
         data: {
           token,
         },

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1678452285079" clover="3.2.0">
-  <project timestamp="1678452285079" name="All files">
+<coverage generated="1678452401774" clover="3.2.0">
+  <project timestamp="1678452401774" name="All files">
     <metrics statements="243" coveredstatements="242" conditionals="40" coveredconditionals="37" methods="46" coveredmethods="46" elements="329" coveredelements="325" complexity="0" loc="243" ncloc="243" packages="6" files="14" classes="14"/>
     <package name="database.config">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
