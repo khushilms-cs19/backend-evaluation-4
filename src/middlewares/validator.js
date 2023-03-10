@@ -24,7 +24,7 @@ const schemas = {
   createCollection: Joi.object({
     data: Joi.array().items(Joi.object({
       columnId: Joi.string().guid().required(),
-      value: Joi.string().min(3).max(255).required(),
+      value: Joi.string().min(0).max(255),
     })).required(),
   }),
   editCollection: Joi.object({
@@ -54,7 +54,7 @@ const validateBody = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ message: error.message });
     } else {
       next();
     }
@@ -65,7 +65,7 @@ const validateParams = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.params);
     if (error) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ message: error.message });
     } else {
       next();
     }
